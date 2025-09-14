@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { BookOpen } from "lucide-react";
+import Image from "next/image";
 
 import {
   Menu,
@@ -34,7 +35,7 @@ import { motion } from "framer-motion";
 
 export default function PersonalizedPortfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  //const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentSection, setCurrentSection] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -434,11 +435,13 @@ export default function PersonalizedPortfolio() {
               whileHover={{ rotate: 8, scale: 1.05 }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
             >
-              <img
-                src="/img/profilepic.jpg"
+              <Image              
+                src="/img/profilepic.png"
                 alt="Professional headshot of Aafreen Zahra Kazmi with gradient purple border and animated glow effect"
                 className="w-full h-full object-cover"
                 loading="lazy"
+                width={288}  // example width (64 * 4.5)
+                height={288} // example height (64 * 4.5)
               />
               {/* Animated Border */}
               <motion.div
@@ -450,7 +453,7 @@ export default function PersonalizedPortfolio() {
                 transition={{ duration: 8, ease: "linear", repeat: Infinity }}
               />
               {/* Animated Glow Effect */}
-              <motion.di
+              <motion.div
                 className="absolute inset-0 rounded-full"
                 animate={{
                   boxShadow: [
