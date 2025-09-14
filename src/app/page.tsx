@@ -35,9 +35,9 @@ import { motion } from "framer-motion";
 
 export default function PersonalizedPortfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  //const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [currentSection, setCurrentSection] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasMovedMouse, setHasMovedMouse] = useState(false); // New state to track mouse movement
 
   // Use ref for cursor position to optimize updates with requestAnimationFrame
   const mousePosRef = useRef({ x: 0, y: 0 });
@@ -49,12 +49,18 @@ export default function PersonalizedPortfolio() {
     // Mouse move handler using requestAnimationFrame for smooth updates
     const handleMouseMove = (e: MouseEvent) => {
       mousePosRef.current = { x: e.clientX, y: e.clientY };
+      if (!hasMovedMouse) {
+        setHasMovedMouse(true); // Set to true after the first mouse move
+      }
     };
 
     const animateCursor = () => {
-      if (cursorRef.current) {
+      if (cursorRef.current && hasMovedMouse) { // Only animate if mouse has moved
         // Smaller cursor: width and height 16px (+/-8 for centering)
         cursorRef.current.style.transform = `translate3d(${mousePosRef.current.x - 8}px, ${mousePosRef.current.y - 8}px, 0) scale(${currentSection === 0 ? 1.3 : 1})`;
+        cursorRef.current.style.opacity = '1'; // Make visible
+      } else if (cursorRef.current && !hasMovedMouse) {
+        cursorRef.current.style.opacity = '0'; // Keep hidden until mouse moves
       }
       requestAnimationFrame(animateCursor);
     };
@@ -81,7 +87,7 @@ export default function PersonalizedPortfolio() {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [currentSection]);
+  }, [currentSection, hasMovedMouse]); // Added hasMovedMouse to dependency array
 
   // Updated personal data
   const formData = {
@@ -203,7 +209,7 @@ export default function PersonalizedPortfolio() {
       description: "I developed a JIRA-Slack Integration tool using Python that sends real-time JIRA issue updates directly into Slack channels. This allows teams to stay updated on project progress without the need to manually check JIRA. By automating notifications, the tool improves collaboration, boosts efficiency, and ensures better visibility across projects.",
       color: "from-green-500 to-blue-500",
       github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/JIRA-SLACK-INTEGRATION.git",
-      docs: "https://www.notion.so/JIRA-TOOL-230e9f15cd7b801abbfbf1a12efe78f7?source=copy_link", 
+      docs: "https://www.notion.so/JIRA-TOOL-230e9f15cd7b801abbfbf1a12efe78f7?source=copy_link",
       demo: null,
       tech: ["JIRA API", "Slack API", "Python", "Automation"]
     },
@@ -213,7 +219,7 @@ export default function PersonalizedPortfolio() {
       description: "Learning to build a chatbot with UI for research and summarization tasks using LangChain, LangGraph, and LangSmith. Exploring integration of external tools like Gmail, WhatsApp, Notion, OneDrive, Tavity, and local file systems. Gaining practical skills in agent workflows, prompt handling, and trace debugging. Currently working on connecting mixed content sources for real-time responses and summarization.",
       color: "from-green-500 to-teal-500",
       github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/Langgraph_Learning.git",
-      docs: "https://www.notion.so/From-Prompt-to-Production-A-Technical-Guide-to-LangChain-LangGraph-and-LangSmith-233e9f15cd7b80fd8a01ecf64e26f7b9?source=copy_link", 
+      docs: "https://www.notion.so/From-Prompt-to-Production-A-Technical-Guide-to-LangChain-LangGraph-and-LangSmith-233e9f15cd7b80fd8a01ecf64e26f7b9?source=copy_link",
       demo: null,
       tech: ["Python", "LangGraph", "Agentic AI", "LLM"]
     },
@@ -313,17 +319,17 @@ export default function PersonalizedPortfolio() {
     { name: "AI for Sustainable Future: Hackathon", certificate: true, driveLink: "https://drive.google.com/file/d/1IX-oHutk1xO8Dw7muvpLupFEl42231fU/view?usp=sharing" },
     { name: "Ethical Hacking", certificate: false, driveLink: null },
     { name: "Big Data", certificate: false, driveLink: null },
-     
+
   ];
 
-  
+
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
       {/* Custom Cursor - Smaller and Faster */}
       <div
         ref={cursorRef}
-        className="fixed w-4 h-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full pointer-events-none z-50 mix-blend-difference transition-transform duration-100 ease-out"
+        className="fixed w-4 h-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full pointer-events-none z-50 mix-blend-difference transition-transform duration-100 ease-out opacity-0" // Added initial opacity-0
       />
 
       {/* Animated Background */}
@@ -421,7 +427,7 @@ export default function PersonalizedPortfolio() {
       </nav>
 
       {/* About Section - Profile Picture Left Side with Animation */}
-      <section id="about" className="relative min-h-screen flex items-center justify-center">
+      <section id="about" className="relative min-h-screen flex items-center justify-center py-16 md:py-0"> {/* Added py-16 for mobile padding */}
         <div className="container mx-auto px-6 text-left z-10 max-w-7xl">
           <motion.div
             initial={{ opacity: 0, x: -60 }}
@@ -431,11 +437,11 @@ export default function PersonalizedPortfolio() {
           >
             {/* Profile Picture - Left Side with Larger Size and Animation */}
             <motion.div
-              className="relative w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-purple-500 shadow-2xl flex-shrink-0 cursor-pointer"
+              className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-purple-500 shadow-2xl flex-shrink-0 cursor-pointer mx-auto md:mx-0 mb-8 md:mb-0" // Centered on mobile, added mb-8
               whileHover={{ rotate: 8, scale: 1.05 }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
             >
-              <Image              
+              <Image
                 src="/img/profilepic.png"
                 alt="Professional headshot of Aafreen Zahra Kazmi with gradient purple border and animated glow effect"
                 className="w-full h-full object-cover"
@@ -468,9 +474,9 @@ export default function PersonalizedPortfolio() {
             </motion.div>
 
             {/* Text Content */}
-            <div className="max-w-4xl">
-              <motion.h1 
-                className="text-6xl md:text-7.5xl font-black mb-6 leading-none whitespace-nowrap md:whitespace-normal"
+            <div className="max-w-4xl text-center md:text-left"> {/* Centered text on mobile */}
+              <motion.h1
+                className="text-4xl sm:text-5xl md:text-7.5xl font-black mb-4 md:mb-6 leading-tight md:leading-none" // Adjusted font size and line height for mobile
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.3 }}
@@ -480,8 +486,8 @@ export default function PersonalizedPortfolio() {
                 </span>
               </motion.h1>
 
-              <motion.h2 
-                className="text-3xl md:text-3xl font-semibold mb-8 text-white/80"
+              <motion.h2
+                className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 md:mb-8 text-white/80" // Adjusted font size for mobile
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.5 }}
@@ -489,8 +495,8 @@ export default function PersonalizedPortfolio() {
                 {formData.title}
               </motion.h2>
 
-              <motion.p 
-                className="text-xl md:text-2xl text-white/80 mb-10 leading-relaxed"
+              <motion.p
+                className="text-base sm:text-lg md:text-2xl text-white/80 mb-8 md:mb-10 leading-relaxed" // Adjusted font size for mobile
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.7 }}
@@ -502,27 +508,27 @@ export default function PersonalizedPortfolio() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, delay: 0.9 }}
-                className="flex flex-col sm:flex-row gap-6 justify-start items-center mb-8"
+                className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center md:justify-start items-center mb-8" // Centered buttons on mobile
               >
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 px-10 py-4 rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 text-lg"
+                  className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 px-8 py-3 rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 text-base sm:text-lg" // Adjusted button size for mobile
                   onClick={() =>
                     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
                   }
                 >
                   View My Work
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
 
                 {formData.cvDownloadLink && (
-                  <a href={formData.cvDownloadLink} target="_blank" rel="noopener noreferrer">
+                  <a href={formData.cvDownloadLink} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto"> {/* Added w-full for mobile */}
                     <Button
                       size="lg"
                       variant="outline"
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 px-10 py-4 rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 text-lg"
+                      className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 px-8 py-3 rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 text-base sm:text-lg" // Adjusted button size for mobile
                     >
-                      <Download className="mr-2 h-5 w-5" />
+                      <Download className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                       Download CV
                     </Button>
                   </a>
@@ -533,15 +539,15 @@ export default function PersonalizedPortfolio() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, delay: 1.1 }}
-                className="flex gap-10 justify-start"
+                className="flex gap-6 justify-center md:justify-start" // Centered social icons on mobile
               >
                 {formData.githubProfile && (
                   <a href={formData.githubProfile} target="_blank" rel="noopener noreferrer">
                     <Button
                       variant="ghost"
-                      className="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-0 transform hover:scale-110 transition-all duration-300"
+                      className="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-2 transform hover:scale-110 transition-all duration-300" // Reduced padding for mobile
                     >
-                      <Github className="h-64 w-64" />
+                      <Github className="h-8 w-8 sm:h-10 sm:w-10" /> {/* Reduced icon size for mobile */}
                     </Button>
                   </a>
                 )}
@@ -549,9 +555,9 @@ export default function PersonalizedPortfolio() {
                   <a href={formData.linkedinProfile} target="_blank" rel="noopener noreferrer">
                     <Button
                       variant="ghost"
-                      className="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-4 transform hover:scale-110 transition-all duration-300"
+                      className="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-2 transform hover:scale-110 transition-all duration-300" // Reduced padding for mobile
                     >
-                      <Linkedin className="h-64 w-64" />
+                      <Linkedin className="h-8 w-8 sm:h-10 sm:w-10" /> {/* Reduced icon size for mobile */}
                     </Button>
                   </a>
                 )}
@@ -565,7 +571,7 @@ export default function PersonalizedPortfolio() {
       <section id="projects" className="relative py-32 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="text-center mb-20">
-            <motion.h2 
+            <motion.h2
               className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -574,7 +580,7 @@ export default function PersonalizedPortfolio() {
             >
               My Projects
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-white/70 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -644,7 +650,7 @@ export default function PersonalizedPortfolio() {
                             <Play className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-300" />
                           </Button>
                         </a>
-                        
+
                       )}
                       {project.docs && (
                         <a href={project.docs} target="_blank" rel="noopener noreferrer">
@@ -671,7 +677,7 @@ export default function PersonalizedPortfolio() {
       <section id="skills" className="relative py-32 bg-black">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-20">
-            <motion.h2 
+            <motion.h2
               className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -680,7 +686,7 @@ export default function PersonalizedPortfolio() {
             >
               Skills & Technologies
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-white/70 max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -736,7 +742,7 @@ export default function PersonalizedPortfolio() {
       <section id="experience" className="relative py-32 bg-gradient-to-b from-gray-900 to-black">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-20">
-            <motion.h2 
+            <motion.h2
               className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -745,7 +751,7 @@ export default function PersonalizedPortfolio() {
             >
               My Experience
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-white/70 max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -790,7 +796,7 @@ export default function PersonalizedPortfolio() {
       <section id="education" className="relative py-32 bg-black">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-20">
-            <motion.h2 
+            <motion.h2
               className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -799,7 +805,7 @@ export default function PersonalizedPortfolio() {
             >
               My Education
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-white/70 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -844,7 +850,7 @@ export default function PersonalizedPortfolio() {
       <section id="certifications" className="relative py-32 bg-gradient-to-b from-gray-900 to-black">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-20">
-            <motion.h2 
+            <motion.h2
               className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -853,7 +859,7 @@ export default function PersonalizedPortfolio() {
             >
               Certifications
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-white/70 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -875,7 +881,7 @@ export default function PersonalizedPortfolio() {
               <Card className="bg-gradient-to-br from-gray-900 to-black border border-white/10 p-8 hover:border-green-400 transition-all duration-300">
                 <CardContent className="p-0">
                   <h3 className="text-3xl font-bold text-white mb-6 flex items-center">
-                    <Award className="mr-3 h-8 w-8 text-teal-400" /> 
+                    <Award className="mr-3 h-8 w-8 text-teal-400" />
                     Technical Certifications
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -906,7 +912,7 @@ export default function PersonalizedPortfolio() {
               <Card className="bg-gradient-to-br from-gray-900 to-black border border-white/10 p-8 hover:border-green-400 transition-all duration-300">
                 <CardContent className="p-0">
                   <h3 className="text-3xl font-bold text-white mb-6 flex items-center">
-                    <Award className="mr-3 h-8 w-8 text-teal-400" /> 
+                    <Award className="mr-3 h-8 w-8 text-teal-400" />
                     Soft Skills & Other Certifications
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -937,7 +943,7 @@ export default function PersonalizedPortfolio() {
               <Card className="bg-gradient-to-br from-gray-900 to-black border border-white/10 p-8 hover:border-green-400 transition-all duration-300">
                 <CardContent className="p-0">
                   <h3 className="text-3xl font-bold text-white mb-6 flex items-center">
-                    <Award className="mr-3 h-8 w-8 text-teal-400" /> 
+                    <Award className="mr-3 h-8 w-8 text-teal-400" />
                     {certifications.azureAI.title}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -978,7 +984,7 @@ export default function PersonalizedPortfolio() {
       <section id="workshops" className="relative py-32 bg-black">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-20">
-            <motion.h2 
+            <motion.h2
               className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -987,7 +993,7 @@ export default function PersonalizedPortfolio() {
             >
               Workshops Attended
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-white/70 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1028,7 +1034,7 @@ export default function PersonalizedPortfolio() {
                 </Card>
               </motion.div>
             ))}
-        
+
           </div>
         </div>
       </section>
@@ -1037,7 +1043,7 @@ export default function PersonalizedPortfolio() {
       <section id="contact" className="relative py-32 bg-gradient-to-b from-gray-900 to-black">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-20">
-            <motion.h2 
+            <motion.h2
               className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1046,7 +1052,7 @@ export default function PersonalizedPortfolio() {
             >
               Let&apos;s Work Together
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-white/70 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1101,7 +1107,7 @@ export default function PersonalizedPortfolio() {
             >
               <div className="space-y-8">
                 <h3 className="text-3xl font-bold text-white mb-8">Contact Information</h3>
-                
+
                 <div className="flex items-center space-x-6 p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
                   <Mail className="h-8 w-8 text-purple-400 flex-shrink-0" />
                   <div>
@@ -1109,7 +1115,7 @@ export default function PersonalizedPortfolio() {
                     <div className="text-white text-lg">{formData.email}</div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-6 p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
                   <Star className="h-8 w-8 text-purple-400 flex-shrink-0" />
                   <div>
@@ -1117,7 +1123,7 @@ export default function PersonalizedPortfolio() {
                     <div className="text-white text-lg">{formData.location}</div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-6 p-6 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300">
                   <Heart className="h-8 w-8 text-purple-400 flex-shrink-0" />
                   <div>
