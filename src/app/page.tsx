@@ -240,7 +240,7 @@ export default function PersonalizedPortfolio() {
   // Experience array with updated new internship
   const experiences = [
     {
-      title: "AI/Web Development/Research Intern",
+      title: "AI/Web Development/ Research Intern",
       company: "AI-Explain You Science",
       duration: "Oct 2025 - Present",
       description: "Selected for an internship focused on learning, Web Application development, and gaining hands-on knowledge in AI, technology, and innovation. Expected to excel in tasks and projects, contributing to career goals.",
