@@ -1044,7 +1044,7 @@ export default function PersonalizedPortfolio() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              Let's Work Together
+              Let&apos;s Work Together
             </motion.h2>
             <motion.p 
               className="text-xl text-white/70 max-w-2xl mx-auto"
@@ -1053,7 +1053,7 @@ export default function PersonalizedPortfolio() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Interested in collaborating? Let's discuss your project or connect for opportunities!
+              Interested in collaborating? Let&apos;s discuss your project or connect for opportunities!
             </motion.p>
           </div>
 
