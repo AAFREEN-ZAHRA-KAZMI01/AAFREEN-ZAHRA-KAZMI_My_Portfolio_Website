@@ -92,10 +92,10 @@ export default function PersonalizedPortfolio() {
   // Updated personal data
   const formData = {
     name: "Aafreen Zahra Kazmi",
-    title: "AI | NLP & Deep Learning | Ethical Hacking",
+    title: "AI | NLP & Deep Learning | Python ",
     email: "aafreenzK1214@gmail.com",
     location: "Rawalpindi, Pakistan",
-    bio: "Passionate about Artificial Intelligence, Deep Learning, NLP, and Cybersecurity. Currently working on Agentic AI projects and applying ML/DL techniques to real-world problems. Skilled in Python, C++, and SQL, with growing knowledge in ethical hacking and system security.",
+    bio: "AI enthusiast passionate about Deep Learning, NLP, and Agentic AI. Skilled in Python, C++, and SQL, I focus on building intelligent solutions and exploring secure, ethical applications of Artificial Intelligence.",
     profilePicture: "public/img/profilepic.jpg", // Corrected image path
     cvDownloadLink: "/img/AAFREEN%20ZAHRA%20KAZMI%20RESUME.pdf",
     githubProfile: "https://github.com/AAFREEN-ZAHRA-KAZMI01",
@@ -104,6 +104,79 @@ export default function PersonalizedPortfolio() {
 
   // Projects data
   const projects = [
+    {
+      title: "Calculator",
+      category: "Python Basics",
+      description: "Built a simple calculator application to perform basic arithmetic operations such as addition, subtraction, multiplication, and division. Implemented user input handling and error checking for invalid inputs and division by zero.",
+      color: "from-blue-600 to-green-600",
+      github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/PYTHON_PROJECT_PRACTICE/tree/main/Calculator",
+      demo: null,
+    tech: ["Python"]
+    },
+    {
+      title: "Tic Tac Toe Game",
+      category: ["Game Development","Python Basic"],
+      description: "Developed a console-based Tic Tac Toe game allowing two players to play against each other. Included features such as player turn management, 3x3 grid display, and win/draw detection logic.",
+      color: "from-red-600 to-yellow-600",
+      github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/PYTHON_PROJECT_PRACTICE/tree/main/TicTacToe",
+      demo: null,
+      tech: ["Python"]
+    },
+    {
+      title: "Number Guessing Game",
+      category: ["Game Development"," Python Basics"],
+      description: "Created a number guessing game where the user attempts to guess a randomly generated number within a specified range. Provided feedback on guesses and limited the number of attempts.",
+      color: "from-indigo-600 to-purple-600",
+      github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/PYTHON_PROJECT_PRACTICE/tree/main/NumberGuessingGame",
+      demo: null,
+      tech: ["Python"]
+    },
+    {
+      title: "Password Generator",
+      category: ["Utility", " Python Basics"],
+      description: "Implemented a password generator that creates secure passwords based on user-defined criteria including length and character types such as uppercase, lowercase, digits, and special characters.",
+      color: "from-pink-600 to-red-600",
+      github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/PYTHON_PROJECT_PRACTICE/tree/main/PasswordGenerator",
+      demo: null,
+      tech: ["Python"]
+    },
+
+    {
+      title: "Hangman Game",
+      category: ["Game Development"," Python Basic"],
+      description: "Created a console-based Hangman game where players guess letters to reveal a hidden word, with limited attempts and visual feedback on the hangman’s status.",
+      color: "from-yellow-600 to-orange-600",
+      github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/PYTHON_PROJECT_PRACTICE/tree/main/Hangman",
+      demo: null,
+      tech: ["Python"]
+    },
+    {
+      title: "Rock Paper Scissors Game",
+      category: ["Game Development"," Python Basic"],
+      description: "Developed a Rock Paper Scissors game where the user plays against the computer, which makes random choices. Included input validation and score tracking.",
+      color: "from-red-600 to-pink-600",
+      github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/PYTHON_PROJECT_PRACTICE/tree/main/RockPaperScissors",
+      demo: null,
+      tech: ["Python"]
+    },
+    {
+      title: "BMI Calculator",
+      category: ["Health"," Python Basic"],
+      description: "Built a BMI calculator that computes Body Mass Index based on user input for height and weight, categorizing the result into underweight, normal, overweight, or obese.",
+      color: "from-blue-600 to-cyan-600",
+      github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/PYTHON_PROJECT_PRACTICE/tree/main/BMICalculator",
+      demo: null,
+      tech: ["Python","Streamlit"]
+    },
+    {
+      title: "Streamlit Web App",
+      category: [" Web Application"," Python Basic"],
+      description: "Developed an interactive web application using Streamlit to demonstrate Python capabilities with a user-friendly interface. The app includes dynamic input handling and real-time output display.",
+      color: "from-blue-500 to-indigo-600",
+      github: "https://github.com/AAFREEN-ZAHRA-KAZMI01/PYTHON_PROJECT_PRACTICE/tree/main/StreamlitApp",
+      demo: null,
+      tech: ["Python", "Streamlit"]
+    },
     {
       title: "Customer Segmentation",
       category: "Machine Learning",
@@ -545,9 +618,9 @@ export default function PersonalizedPortfolio() {
                   <a href={formData.githubProfile} target="_blank" rel="noopener noreferrer">
                     <Button
                       variant="ghost"
-                      className="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-2 transform hover:scale-110 transition-all duration-300" // Reduced padding for mobile
+                      className="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-4 transform hover:scale-110 transition-all duration-300" // Reduced padding for mobile
                     >
-                      <Github className="h-8 w-8 sm:h-10 sm:w-10" /> {/* Reduced icon size for mobile */}
+                      <Github className="h-16 w-16 sm:h-10 sm:w-10" /> {/* Reduced icon size for mobile */}
                     </Button>
                   </a>
                 )}
@@ -557,7 +630,7 @@ export default function PersonalizedPortfolio() {
                       variant="ghost"
                       className="text-white/70 hover:text-white hover:bg-white/10 rounded-full p-2 transform hover:scale-110 transition-all duration-300" // Reduced padding for mobile
                     >
-                      <Linkedin className="h-8 w-8 sm:h-10 sm:w-10" /> {/* Reduced icon size for mobile */}
+                      <Linkedin className="h-16 w-16 sm:h-16 sm:w-16" /> {/* Reduced icon size for mobile */}
                     </Button>
                   </a>
                 )}
